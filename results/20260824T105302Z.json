@@ -1,0 +1,97 @@
+{
+  "meta": {
+    "target_root": "D:\\Vedhanth\\studies\\Coding\\Hackathon\\HH Goa\\HHGoa_Task_2",
+    "generation_backend": "extractive",
+    "generation_model_hint": "all-MiniLM-L6-v2 + Extractive Synthesizer",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 3,
+    "num_unanswerable": 3,
+    "num_examples": 6,
+    "num_chunks": 133,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 3,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.3333,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6667
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.3333,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6667
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 3,
+    "num_unanswerable_evaluated": 3,
+    "false_refusal_rate": 0.0,
+    "false_refusal_examples": [],
+    "false_confidence_rate": 0.6667,
+    "false_confidence_examples": [
+      {
+        "query": "what is wealth gov and econ definition",
+        "fabricated_answer": "Wealth is the value of all resources an individual or society owns. While countries measure their wealth in terms of GDP, individuals typically use net worth."
+      },
+      {
+        "query": "hexadecimal numbers to binary numbers",
+        "fabricated_answer": "To convert binary numbers into hexadecimal numbers we must first divide the binary number up into a 4-bit binary word which can have any value from 010 ( 00002 ) to 1510 ( 11112 ) representing the hex"
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 6,
+    "embed": {
+      "avg_ms": 21.48,
+      "p50_ms": 20.77,
+      "p95_ms": 26.86,
+      "p99_ms": 27.38
+    },
+    "search": {
+      "avg_ms": 0.16,
+      "p50_ms": 0.16,
+      "p95_ms": 0.2,
+      "p99_ms": 0.23
+    },
+    "retrieval_total": {
+      "avg_ms": 19.7,
+      "p50_ms": 19.54,
+      "p95_ms": 21.18,
+      "p99_ms": 21.36
+    },
+    "generation": {
+      "avg_ms": 0.57,
+      "p50_ms": 0.51,
+      "p95_ms": 0.94,
+      "p99_ms": 0.95
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": true,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

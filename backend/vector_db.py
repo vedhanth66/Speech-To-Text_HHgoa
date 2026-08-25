@@ -84,6 +84,9 @@ class VectorDBEngine:
         Search for top-k similar chunks.
         Returns dict matching original VectorDBEngine.search() shape.
         """
+        query_key = query.strip().lower()
+        is_cached = query_key in self._dense._query_cache
+
         results, retrieval_ms = self._dense.search(
             query, top_k=top_k, similarity_threshold=similarity_threshold
         )
@@ -107,5 +110,5 @@ class VectorDBEngine:
             "results": old_results,
             "top_score": round(top_score, 4),
             "retrieval_latency_ms": retrieval_ms,
-            "is_cached": False,
+            "is_cached": is_cached,
         }

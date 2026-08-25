@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "target_root": "D:\\Vedhanth\\studies\\Coding\\Hackathon\\HH Goa\\HHGoa_Task_2",
+    "generation_backend": "extractive",
+    "generation_model_hint": "all-MiniLM-L6-v2 + Extractive Synthesizer",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 3,
+    "num_unanswerable": 3,
+    "num_examples": 6,
+    "num_chunks": 133,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 3,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.3333,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6667
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.3333,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6667
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 3,
+    "num_unanswerable_evaluated": 3,
+    "false_refusal_rate": 0.0,
+    "false_refusal_examples": [],
+    "false_confidence_rate": 1.0,
+    "false_confidence_examples": [
+      {
+        "query": "what is wealth gov and econ definition",
+        "fabricated_answer": "Wealth is the value of all resources an individual or society owns. While countries measure their wealth in terms of GDP, individuals typically use net worth."
+      },
+      {
+        "query": "hexadecimal numbers to binary numbers",
+        "fabricated_answer": "To convert binary numbers into hexadecimal numbers we must first divide the binary number up into a 4-bit binary word which can have any value from 010 ( 00002 ) to 1510 ( 11112 ) representing the hex"
+      },
+      {
+        "query": "what is the scorebridge app used for",
+        "fabricated_answer": "The app interface is OK - nothing special."
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 6,
+    "embed": {
+      "avg_ms": 12.52,
+      "p50_ms": 11.76,
+      "p95_ms": 15.73,
+      "p99_ms": 15.92
+    },
+    "search": {
+      "avg_ms": 0.1,
+      "p50_ms": 0.09,
+      "p95_ms": 0.14,
+      "p99_ms": 0.15
+    },
+    "retrieval_total": {
+      "avg_ms": 12.05,
+      "p50_ms": 11.85,
+      "p95_ms": 13.97,
+      "p99_ms": 14.27
+    },
+    "generation": {
+      "avg_ms": 0.39,
+      "p50_ms": 0.33,
+      "p95_ms": 0.65,
+      "p99_ms": 0.69
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": true,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

@@ -23,13 +23,12 @@ backend/.env
 # Generated indexes (included in repository for 0-step production deployment)
 # indexes/
 
-# Downloaded corpus (included in repository for production deployment)
-# data/
+# Downloaded raw corpora
+data/gdrive_download/
 
 # Old benchmark reports (regenerate with run_benchmark.py)
-benchmark_report.json
-benchmark_report_retrieval.json
-benchmark_report_full.json
+benchmark_report*.json
+
 
 # IDE / OS
 .idea/

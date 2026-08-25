@@ -1,0 +1,122 @@
+{
+  "meta": {
+    "target_root": "D:\\Vedhanth\\studies\\Coding\\Hackathon\\HH Goa\\HHGoa_Task_2",
+    "generation_backend": "extractive",
+    "generation_model_hint": "all-MiniLM-L6-v2 + Extractive Synthesizer",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 50,
+    "num_unanswerable": 50,
+    "num_examples": 100,
+    "num_chunks": 2391,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 50,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.38,
+        "3": 0.72,
+        "5": 0.82
+      },
+      "mrr": 0.5473
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.38,
+        "3": 0.72,
+        "5": 0.82
+      },
+      "mrr": 0.5473
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 50,
+    "num_unanswerable_evaluated": 50,
+    "false_refusal_rate": 0.06,
+    "false_refusal_examples": [
+      {
+        "query": "how long do fly eggs live",
+        "expected_answer": "An adults fly eggs usually live for 15 to 25 days."
+      },
+      {
+        "query": "why did laozi say that idea",
+        "expected_answer": "Laozi thought that both Communism and Legalism were a little off with there ideas to re-create a better society, so he created the idea of Daoism."
+      },
+      {
+        "query": "what is the daily minimum protein requirement",
+        "expected_answer": "The minimum amount of protein you need to be healthy, is 0.8 grams per kilogram of body weight per day 46 grams for an average woman; that equals as little as 10% of daily calories."
+      }
+    ],
+    "false_confidence_rate": 0.78,
+    "false_confidence_examples": [
+      {
+        "query": "difference from phycol and psychiatrist",
+        "fabricated_answer": "A clinical psychologist, for example, will have heavy training in both the theory and practice of psychology. You’ll typically need a doctorate degree in a psychology-related field in order to build a"
+      },
+      {
+        "query": "how to do citations in an essay",
+        "fabricated_answer": "When citing an essay, you include information in two places: in the body of your paper and in the Works Cited that comes after it. Be able to recognize the two components of citation."
+      },
+      {
+        "query": "erie insurance corporate address",
+        "fabricated_answer": "Write A Review For Erie Insurance Corporate Headquarters. Note: This is not to be used to contact Erie Insurance Corporate Offices nor is this site affiliated with them in any way."
+      },
+      {
+        "query": "what is tlr development",
+        "fabricated_answer": "Recent developments in the TLR field highlight the importance of these molecules to human health and disease and demonstrate that their targeting, to boost immunity or inhibit inflammation, is both fe"
+      },
+      {
+        "query": "tail wagging the dog originate",
+        "fabricated_answer": "tail wagging the dog. The phrase “the tail that wags the dog” dates to the turn of the last century."
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 100,
+    "embed": {
+      "avg_ms": 62.98,
+      "p50_ms": 62.01,
+      "p95_ms": 76.64,
+      "p99_ms": 86.56
+    },
+    "search": {
+      "avg_ms": 0.55,
+      "p50_ms": 0.46,
+      "p95_ms": 1.24,
+      "p99_ms": 1.72
+    },
+    "retrieval_total": {
+      "avg_ms": 60.1,
+      "p50_ms": 59.52,
+      "p95_ms": 72.18,
+      "p99_ms": 76.69
+    },
+    "generation": {
+      "avg_ms": 0.59,
+      "p50_ms": 0.55,
+      "p95_ms": 1.03,
+      "p99_ms": 1.13
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": false,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

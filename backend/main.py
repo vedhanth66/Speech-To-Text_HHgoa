@@ -450,14 +450,15 @@ def _sse_event(event_type: str, data: Any) -> str:
 
 async def _execute_rag_pipeline(
     transcript: str,
-    stt_latency_ms: float,
-    stt_provider: str,
-    chunking_strategy: str,
-    language_code: str,
-    enable_guardrails: bool,
+    stt_latency_ms: float = 0.0,
+    stt_provider: str = "none",
+    chunking_strategy: str = "semantic",
+    language_code: str = "en",
+    enable_guardrails: bool = True,
     synthesis_mode: str = "extractive",
     _notify_searching_done=None,
     bypass_cache: bool = False,
+    **kwargs,
 ) -> RAGResponse:
     """
     Full orchestration with ultra-low latency caching and extractive synthesis:
@@ -472,6 +473,12 @@ async def _execute_rag_pipeline(
     """
     wall_clock_start = time.perf_counter()
     tracker = LatencyTracker()
+
+    # Ensure index is loaded if called outside of lifespan context (e.g. direct test runs)
+    if len(dense_retriever.chunks) == 0:
+        hybrid_retriever.load_from_disk(_INDEX_DIR)
+        if dense_retriever.model is not None:
+            guardrail_engine.set_embedder(dense_retriever._embed)
 
     # ── 0. Exact Cache Fast-Path (<0.1ms) ─────────────────────────────────────
     # bypass_cache=True is used by the benchmark route so it always measures
@@ -673,6 +680,10 @@ async def _execute_rag_pipeline(
     )
 
     return response
+
+
+# Backwards compatibility alias for test harnesses and external callers
+execute_rag_pipeline = _execute_rag_pipeline
 
 
 # ── Supplementary Endpoints ───────────────────────────────────────────────────

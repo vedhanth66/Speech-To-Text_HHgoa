@@ -1,0 +1,101 @@
+{
+  "meta": {
+    "target_root": "D:\\Vedhanth\\studies\\Coding\\Hackathon\\HH Goa\\HHGoa_Task_2",
+    "generation_backend": "extractive",
+    "generation_model_hint": "all-MiniLM-L6-v2 + Extractive Synthesizer",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 5,
+    "num_unanswerable": 5,
+    "num_examples": 10,
+    "num_chunks": 222,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 5,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.4,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6333
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.4,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6333
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 5,
+    "num_unanswerable_evaluated": 5,
+    "false_refusal_rate": 0.0,
+    "false_refusal_examples": [],
+    "false_confidence_rate": 0.6,
+    "false_confidence_examples": [
+      {
+        "query": "what is ruthenian",
+        "fabricated_answer": "Chambers 20th Century Dictionary(0.00 / 0 votes)Rate this definition: Ruthenian. of or pertaining to the Ruthenians, a branch of the little Russian division of the Slav race, on both sides of the Carp"
+      },
+      {
+        "query": "brett desmond net worth",
+        "fabricated_answer": "Dermot Desmond Net Worth is $2 Billion Dermot Desmond Biography Dermot Desmond is an Irish businessman, financier and tax exile."
+      },
+      {
+        "query": "weather channel redmond oregon hourly",
+        "fabricated_answer": "find local weather Copyright © 2017 Redmond Hourly Weather, Weather by the hour, Redmond Oregon hourly, Redmond OR Hourly Weather, 24 hour, 48 hour forecast, Redmond OR, 24 hour and 48 hour weather, r"
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 10,
+    "embed": {
+      "avg_ms": 99.06,
+      "p50_ms": 105.24,
+      "p95_ms": 150.94,
+      "p99_ms": 153.98
+    },
+    "search": {
+      "avg_ms": 0.59,
+      "p50_ms": 0.36,
+      "p95_ms": 1.41,
+      "p99_ms": 3.48
+    },
+    "retrieval_total": {
+      "avg_ms": 90.46,
+      "p50_ms": 104.19,
+      "p95_ms": 106.77,
+      "p99_ms": 106.98
+    },
+    "generation": {
+      "avg_ms": 0.55,
+      "p50_ms": 0.47,
+      "p95_ms": 1.06,
+      "p99_ms": 1.17
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": false,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

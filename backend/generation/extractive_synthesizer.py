@@ -18,10 +18,10 @@ SENTENCE_SPLIT_REGEX = re.compile(r"[\n\r]+|(?<=[.!?।॥])\s+")
 
 STOPWORDS = {
     "what", "is", "the", "of", "and", "a", "to", "in", "for", "are", "on", "with",
-    "as", "by", "at", "from", "how", "where", "who", "which", "why", "when", "does", "do",
+    "as", "by", "at", "from", "how", "where", "who", "which", "why", "when", "does", "do", "did",
     "i", "me", "my", "you", "your", "we", "us", "can", "could", "would", "should", "please",
     "tell", "show", "give", "find", "get", "want", "need", "know", "explain", "detail", "details",
-    "batao", "bataiye", "saanga", "sang",
+    "batao", "bataiye", "saanga", "sang", "that", "this", "these", "those", "say", "said", "saying",
     "का", "के", "की", "है", "हैं", "में", "से", "को", "पर", "यह", "और", "एक", "क्या",
     "ఉంది", "యొక్క", "మరియు", "అనేది", "ஆகும்", "மற்றும்", "என்பது"
 }
@@ -29,7 +29,8 @@ STOPWORDS = {
 GENERIC_QUESTION_WORDS = {
     "capital", "city", "country", "state", "name", "definition", "meaning", "meaning of",
     "list", "tell", "explain", "about", "called", "known", "as", "serves", "serve",
-    "located", "situated", "acts", "act", "means", "stands", "defined", "named"
+    "located", "situated", "acts", "act", "means", "stands", "defined", "named", "idea",
+    "say", "said", "saying", "think", "thought"
 }
 
 
@@ -79,6 +80,8 @@ class ExtractiveSynthesizer:
         query: str,
         retrieved_results: List[Dict[str, Any]],
         max_sentences: int = 2,
+        use_fallback: bool = True,
+        min_sentence_score: float = 0.0,
     ) -> Tuple[str, float]:
         """
         Synthesize answer from retrieved passages with strict subject/phrase matching
@@ -129,18 +132,13 @@ class ExtractiveSynthesizer:
                 # Check multi-word phrase matching
                 phrase_match = any(p in norm_s for p in query_phrases) if query_phrases else False
                 
-                # Only enforce strict phrase matching for longer entity phrases (3+ words like "new delhi")
-                # For general queries, allow any sentence with subject keyword hits
                 long_phrases = [p for p in query_phrases if len(p.split()) >= 3]
                 if long_phrases and not phrase_match:
-                    all_phrase_words_in_sentence = False
-                    for p in long_phrases:
-                        p_words = set(p.split())
-                        if p_words.issubset(s_tokens):
-                            all_phrase_words_in_sentence = True
-                            break
-                    if not all_phrase_words_in_sentence:
-                        continue
+                    all_phrase_words_in_sentence = any(
+                        set(p.split()).issubset(s_tokens) for p in long_phrases
+                    )
+                    if all_phrase_words_in_sentence:
+                        phrase_match = True
 
                 def matches_token(kw: str, st: str) -> bool:
                     if len(st) < 3 or len(kw) < 3:
@@ -189,6 +187,10 @@ class ExtractiveSynthesizer:
                 })
 
         if not scored_sentences and retrieved_results:
+            if not use_fallback:
+                # Caller requested no fallback (e.g. eval harness strict mode):
+                # returning "" causes generator to mark answer as ungrounded.
+                return "", round((time.perf_counter() - t0) * 1000, 3)
             # Fallback: extract first sentence from the top retrieved passage
             top_passage_text = retrieved_results[0].get("parent_text") or retrieved_results[0].get("text", "")
             fallback_sents = split_into_sentences(top_passage_text)
@@ -198,6 +200,10 @@ class ExtractiveSynthesizer:
 
         # Sort by total score descending
         scored_sentences.sort(key=lambda x: x["score"], reverse=True)
+
+        # Minimum internal-score gate (optional, for eval strict mode)
+        if min_sentence_score > 0.0 and scored_sentences[0]["score"] < min_sentence_score:
+            return "", round((time.perf_counter() - t0) * 1000, 3)
 
         top_cand = scored_sentences[0]
         selected = [top_cand["text"]]

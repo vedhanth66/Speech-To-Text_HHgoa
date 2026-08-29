@@ -42,7 +42,8 @@ def split_into_sentences(text: str) -> List[str]:
     sentences = []
     for s in raw:
         cleaned = s.strip()
-        if len(cleaned) > 10:
+        # Exclude short fragments, headers/titles (e.g. "Aesop's Fable: The Ant and the Dove.")
+        if len(cleaned) > 20 and not cleaned.endswith(":") and len(cleaned.split()) >= 5:
             sentences.append(cleaned)
     return sentences if sentences else [text.strip()]
 
@@ -156,10 +157,13 @@ class ExtractiveSynthesizer:
                 overlap_count = sum(1 for kw in all_keywords if any(matches_token(kw, st) for st in s_tokens))
                 overlap_ratio = overlap_count / max(len(all_keywords), 1)
 
-                # Require at least one subject keyword to match the sentence.
-                # No score-based exception: the corpus-level check above already
-                # confirmed the subject exists somewhere — so per-sentence matching must hold.
-                if subject_keywords and subject_matches == 0:
+                # Require strong subject overlap: at least 2 subject keywords (or all if < 2)
+                # or a direct phrase match, plus minimum overlap ratio.
+                min_subject_needed = min(2, len(subject_keywords)) if len(subject_keywords) >= 2 else (1 if subject_keywords else 0)
+                if subject_keywords and subject_matches < min_subject_needed and not phrase_match:
+                    continue
+
+                if overlap_ratio < 0.25 and not phrase_match:
                     continue
 
                 # Position bias (first sentence in passage often contains main definition)
@@ -221,5 +225,20 @@ class ExtractiveSynthesizer:
                         break
 
         answer = " ".join(selected).strip()
+        
+        # Validate that answer contains target entity/type for question words
+        q_low = query.lower()
+        a_low = answer.lower()
+        
+        # Temporal questions
+        if any(q_low.startswith(w) or f" {w} " in q_low for w in ["when ", "what year", "what date", "what time"]):
+            if not re.search(r"\b(\d{4}|\d{1,2}(st|nd|rd|th)?|january|february|march|april|may|june|july|august|september|october|november|december|century|bc|ad|am|pm|spring|summer|autumn|winter|fall)\b", a_low):
+                return "", round((time.perf_counter() - t0) * 1000, 3)
+
+        # Quantitative / Duration questions
+        if any(q_low.startswith(w) or f" {w} " in q_low for w in ["how many", "how much", "how long", "how old", "how far", "what cost", "phone number"]):
+            if not re.search(r"\b(\d+|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|hundred|thousand|million|billion|days?|months?|years?|weeks?|hours?|minutes?|seconds?|dollars?|cents?|percent|%)\b", a_low):
+                return "", round((time.perf_counter() - t0) * 1000, 3)
+
         elapsed_ms = round((time.perf_counter() - t0) * 1000, 3)
         return answer, elapsed_ms

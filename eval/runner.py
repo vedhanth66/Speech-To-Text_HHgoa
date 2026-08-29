@@ -1,4 +1,4 @@
-"""CLI entrypoint. Orchestrates the whole eval loop in two phases:
+r"""CLI entrypoint. Orchestrates the whole eval loop in two phases:
 
   Phase A (eval/pipeline.py) -- real retrieval + real generation against
   every sampled MSMARCO-XI example. Sequential-per-example dependency (a
@@ -21,6 +21,7 @@
 
 Usage:
     python -m eval.runner
+    python -m eval.runner --goal
     python -m eval.runner --num-answerable 50 --num-unanswerable 50 --top-k 5
     python -m eval.runner --rag-root D:\path\to\RAG --workers 4 --judge-workers 10
 
@@ -30,6 +31,7 @@ modules in-process.
 """
 import argparse
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 

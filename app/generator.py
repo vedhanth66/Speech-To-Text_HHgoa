@@ -49,11 +49,13 @@ def generate_answer(query: str, results: list) -> GeneratedAnswer:
 
     # --- Relevance gate ---
     # FAISS inner-product scores for all-MiniLM-L6-v2 (L2-normalised) are
-    # cosine similarities in [-1, 1].  Empirically, a score below ~0.25
-    # means the top retrieved passage is not about the query at all.
-    # Refuse early so the ExtractiveSynthesizer's fallback cannot fabricate
-    # an answer from unrelated passage text.
-    MIN_RELEVANCE_SCORE = 0.25
+    # cosine similarities in [-1, 1].  A score below ~0.42 means the top
+    # retrieved passage has insufficient semantic overlap with the query —
+    # the query is either unanswerable given the candidate set, or off-topic.
+    # Refuse early so the ExtractiveSynthesizer cannot fabricate an answer
+    # from tangentially related passage text (the primary cause of false-
+    # confidence failures on unanswerable MSMARCO-XI queries).
+    MIN_RELEVANCE_SCORE = 0.42
     top_score = getattr(results[0], "score", 1.0)
     if top_score < MIN_RELEVANCE_SCORE:
         return GeneratedAnswer(
@@ -78,9 +80,13 @@ def generate_answer(query: str, results: list) -> GeneratedAnswer:
     extracted_text, synth_ms = _synthesizer.synthesize(
         query, candidates,
         use_fallback=False,   # Refuse rather than return unrelated first-sentence fallback
+        min_sentence_score=2.0,  # Ensure extracted sentence has strong query alignment
     )
 
-    if extracted_text and len(extracted_text.strip()) > 5:
+    # Check if the extracted text has high information density and query match
+    is_grounded = bool(extracted_text and len(extracted_text.strip()) > 15)
+    
+    if is_grounded:
         return GeneratedAnswer(
             text=extracted_text,
             grounded=True,

@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "target_root": "C:\\Users\\sathw\\Downloads\\HHGoa_Task_2-main\\HHGoa_Task_2-main",
+    "generation_backend": "local",
+    "generation_model_hint": "unknown",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 25,
+    "num_unanswerable": 25,
+    "num_examples": 50,
+    "num_chunks": 1166,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 25,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.4,
+        "3": 0.76,
+        "5": 0.92
+      },
+      "mrr": 0.5847
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.4,
+        "3": 0.76,
+        "5": 0.92
+      },
+      "mrr": 0.5847
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 25,
+    "num_unanswerable_evaluated": 25,
+    "false_refusal_rate": 0.0,
+    "false_refusal_examples": [],
+    "false_confidence_rate": 0.96,
+    "false_confidence_examples": [
+      {
+        "query": "what is that cluster of stars near taurus",
+        "fabricated_answer": "In the year 1054 a massive star near the tip of the horn of Taurus exploded. Like bright jewels on the back of Taurus sit the Pleiades, a tiny cluster of brilliant bluish stars."
+      },
+      {
+        "query": "the ant and the dove fable",
+        "fabricated_answer": "Aesop's Fable: The Ant and the Dove. Have children draw and color an ant and/or dove or an illustration of the fable under the text."
+      },
+      {
+        "query": "how is cultural transmission theory related to the concentric zone hypothesis? .",
+        "fabricated_answer": "Cultural Transmission Theory. Subcultural Theories Today."
+      },
+      {
+        "query": "how to request to uscis to cancel visa",
+        "fabricated_answer": "USCIS Response on April 30, 2008: To follow-up with a refund request, the applicant or petitioner should contact the customer service line at 1-800-375-5283 or submit a written request to the office h"
+      },
+      {
+        "query": "how long does it take for government college loans to be issued",
+        "fabricated_answer": "After loan approval, it can take 2 weeks to 2 months for the lender to send the loan proceeds to the college or to you, as applicable. If the money is sent directly to the college, it typically takes "
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 50,
+    "embed": {
+      "avg_ms": 12.92,
+      "p50_ms": 12.43,
+      "p95_ms": 19.52,
+      "p99_ms": 20.78
+    },
+    "search": {
+      "avg_ms": 0.3,
+      "p50_ms": 0.3,
+      "p95_ms": 0.49,
+      "p99_ms": 0.59
+    },
+    "retrieval_total": {
+      "avg_ms": 12.05,
+      "p50_ms": 12.05,
+      "p95_ms": 17.43,
+      "p99_ms": 20.27
+    },
+    "generation": {
+      "avg_ms": 0.55,
+      "p50_ms": 0.5,
+      "p95_ms": 0.96,
+      "p99_ms": 1.12
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": true,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

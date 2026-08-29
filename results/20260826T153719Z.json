@@ -1,0 +1,94 @@
+{
+  "meta": {
+    "target_root": "C:\\Users\\sathw\\Downloads\\HHGoa_Task_2-main\\HHGoa_Task_2-main",
+    "generation_backend": "local",
+    "generation_model_hint": "all-MiniLM-L6-v2 + Extractive Synthesizer",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 25,
+    "num_unanswerable": 25,
+    "num_examples": 50,
+    "num_chunks": 1000,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 25,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.96,
+        "3": 0.985,
+        "5": 1.0
+      },
+      "mrr": 0.9733
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.96,
+        "3": 0.985,
+        "5": 1.0
+      },
+      "mrr": 0.9733
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 50,
+    "faithful_rate": 1.0,
+    "hallucination_rate": 0.0,
+    "num_confident_answers": 25,
+    "self_report_precision": 1.0,
+    "self_report_disagreements": [],
+    "hallucinated_examples": []
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 25,
+    "correct_rate": 0.98,
+    "incorrect_examples": []
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 25,
+    "num_unanswerable_evaluated": 25,
+    "false_refusal_rate": 0.0,
+    "false_refusal_examples": [],
+    "false_confidence_rate": 0.0,
+    "false_confidence_examples": []
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 50,
+    "embed": {
+      "avg_ms": 7.42,
+      "p50_ms": 7.15,
+      "p95_ms": 9.8,
+      "p99_ms": 11.2
+    },
+    "search": {
+      "avg_ms": 0.12,
+      "p50_ms": 0.1,
+      "p95_ms": 0.18,
+      "p99_ms": 0.22
+    },
+    "retrieval_total": {
+      "avg_ms": 7.54,
+      "p50_ms": 7.25,
+      "p95_ms": 9.98,
+      "p99_ms": 11.42
+    },
+    "generation": {
+      "avg_ms": 0.35,
+      "p50_ms": 0.31,
+      "p95_ms": 0.58,
+      "p99_ms": 0.69
+    },
+    "retrieval_latency_budget_ms": 40.0,
+    "retrieval_within_budget": true,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

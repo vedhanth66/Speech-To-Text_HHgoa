@@ -1,0 +1,114 @@
+{
+  "meta": {
+    "target_root": "C:\\Users\\sathw\\Downloads\\HHGoa_Task_2-main\\HHGoa_Task_2-main",
+    "generation_backend": "local",
+    "generation_model_hint": "unknown",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 25,
+    "num_unanswerable": 25,
+    "num_examples": 50,
+    "num_chunks": 992,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 25,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.44,
+        "3": 0.8,
+        "5": 0.92
+      },
+      "mrr": 0.61
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.44,
+        "3": 0.8,
+        "5": 0.92
+      },
+      "mrr": 0.61
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 25,
+    "num_unanswerable_evaluated": 25,
+    "false_refusal_rate": 0.04,
+    "false_refusal_examples": [
+      {
+        "query": "how long do you have to keep paperwork",
+        "expected_answer": "As with the policy paperwork, you will want to keep this insurance claim paperwork until at least three years after your policy has ended."
+      }
+    ],
+    "false_confidence_rate": 0.96,
+    "false_confidence_examples": [
+      {
+        "query": "what is that cluster of stars near taurus",
+        "fabricated_answer": "In the year 1054 a massive star near the tip of the horn of Taurus exploded. Like bright jewels on the back of Taurus sit the Pleiades, a tiny cluster of brilliant bluish stars."
+      },
+      {
+        "query": "the ant and the dove fable",
+        "fabricated_answer": "Aesop's Fable: The Ant and the Dove. Have children draw and color an ant and/or dove or an illustration of the fable under the text."
+      },
+      {
+        "query": "how is cultural transmission theory related to the concentric zone hypothesis? .",
+        "fabricated_answer": "Cultural Transmission Theory. Subcultural Theories Today."
+      },
+      {
+        "query": "how to request to uscis to cancel visa",
+        "fabricated_answer": "USCIS Response on April 30, 2008: To follow-up with a refund request, the applicant or petitioner should contact the customer service line at 1-800-375-5283 or submit a written request to the office h"
+      },
+      {
+        "query": "how long does it take for government college loans to be issued",
+        "fabricated_answer": "After loan approval, it can take 2 weeks to 2 months for the lender to send the loan proceeds to the college or to you, as applicable. If the money is sent directly to the college, it typically takes "
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 50,
+    "embed": {
+      "avg_ms": 12.96,
+      "p50_ms": 12.09,
+      "p95_ms": 18.88,
+      "p99_ms": 25.34
+    },
+    "search": {
+      "avg_ms": 0.27,
+      "p50_ms": 0.28,
+      "p95_ms": 0.43,
+      "p99_ms": 0.51
+    },
+    "retrieval_total": {
+      "avg_ms": 12.2,
+      "p50_ms": 11.94,
+      "p95_ms": 15.72,
+      "p99_ms": 23.31
+    },
+    "generation": {
+      "avg_ms": 0.64,
+      "p50_ms": 0.55,
+      "p95_ms": 1.13,
+      "p99_ms": 1.58
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": true,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}

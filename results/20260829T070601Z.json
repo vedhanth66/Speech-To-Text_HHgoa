@@ -1,0 +1,109 @@
+{
+  "meta": {
+    "target_root": "C:\\Users\\sathw\\Downloads\\HHGoa_Task_2-main\\HHGoa_Task_2-main",
+    "generation_backend": "local",
+    "generation_model_hint": "unknown",
+    "language": "hin",
+    "split": "validation",
+    "num_answerable": 5,
+    "num_unanswerable": 5,
+    "num_examples": 10,
+    "num_chunks": 222,
+    "top_k": 5,
+    "seed": 42,
+    "num_errored": 0
+  },
+  "retrieval": {
+    "check": "retrieval (reference-based)",
+    "num_evaluated": 5,
+    "top_k": 5,
+    "cross_lingual": {
+      "recall_at_k": {
+        "1": 0.4,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6333
+    },
+    "same_language": {
+      "recall_at_k": {
+        "1": 0.4,
+        "3": 1.0,
+        "5": 1.0
+      },
+      "mrr": 0.6333
+    }
+  },
+  "faithfulness": {
+    "check": "faithfulness / hallucination (reference-free, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "correctness": {
+    "check": "correctness (reference-based, LLM-as-judge)",
+    "num_evaluated": 0,
+    "error": "OPENAI_API_KEY not configured -- judge-based checks skipped."
+  },
+  "reliability": {
+    "check": "reliability / \"lying factor\" (answerable-vs-answered 2x2)",
+    "num_answerable_evaluated": 5,
+    "num_unanswerable_evaluated": 5,
+    "false_refusal_rate": 0.0,
+    "false_refusal_examples": [],
+    "false_confidence_rate": 1.0,
+    "false_confidence_examples": [
+      {
+        "query": "can you marinate different meats together",
+        "fabricated_answer": "I am marinating meats before grilling. Can I marinate beef and pork (for example) in the same container?"
+      },
+      {
+        "query": "what is the scorebridge app used for",
+        "fabricated_answer": "The app interface is OK - nothing special. Scorebridge for mac: 01 and 5, and XHTML 1."
+      },
+      {
+        "query": "what is ruthenian",
+        "fabricated_answer": "Chambers 20th Century Dictionary(0.00 / 0 votes)Rate this definition: Ruthenian. of or pertaining to the Ruthenians, a branch of the little Russian division of the Slav race, on both sides of the Carp"
+      },
+      {
+        "query": "brett desmond net worth",
+        "fabricated_answer": "Dermot Desmond Net Worth is $2 Billion Dermot Desmond Biography Dermot Desmond is an Irish businessman, financier and tax exile. He is estimated to be worth €1.35 billion and is ranked by the Sunday I"
+      },
+      {
+        "query": "weather channel redmond oregon hourly",
+        "fabricated_answer": "find local weather Copyright © 2017 Redmond Hourly Weather, Weather by the hour, Redmond Oregon hourly, Redmond OR Hourly Weather, 24 hour, 48 hour forecast, Redmond OR, 24 hour and 48 hour weather, r"
+      }
+    ]
+  },
+  "latency": {
+    "check": "latency",
+    "num_evaluated": 10,
+    "embed": {
+      "avg_ms": 18.34,
+      "p50_ms": 17.38,
+      "p95_ms": 25.62,
+      "p99_ms": 26.86
+    },
+    "search": {
+      "avg_ms": 0.28,
+      "p50_ms": 0.18,
+      "p95_ms": 0.37,
+      "p99_ms": 1.7
+    },
+    "retrieval_total": {
+      "avg_ms": 16.98,
+      "p50_ms": 14.76,
+      "p95_ms": 23.66,
+      "p99_ms": 25.25
+    },
+    "generation": {
+      "avg_ms": 0.61,
+      "p50_ms": 0.58,
+      "p95_ms": 1.04,
+      "p99_ms": 1.26
+    },
+    "retrieval_latency_budget_ms": 40,
+    "retrieval_within_budget": true,
+    "generation_latency_target_ms": 1500.0,
+    "generation_within_target": true
+  }
+}
